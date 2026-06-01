@@ -1,0 +1,71 @@
+{
+  "name": "lolmasite",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "main": "src/electron/main.cjs",
+  "scripts": {
+    "dev": "concurrently \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "tsx src/main/index.ts",
+    "dev:web": "vite --host 127.0.0.1",
+    "electron:dev": "npm run build && concurrently -k \"npm:dev:web\" \"wait-on http://127.0.0.1:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 node_modules/electron/dist/electron.exe .\"",
+    "build": "vue-tsc --noEmit && vite build && tsc -p tsconfig.main.json && tsc -p tsconfig.electron.json",
+    "preview": "vite preview --host 127.0.0.1",
+    "dist": "npm run build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "latest",
+    "electron-updater": "^6.8.3",
+    "undici": "latest",
+    "vite": "latest",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "concurrently": "latest",
+    "cross-env": "^10.1.0",
+    "electron": "^42.3.0",
+    "electron-builder": "^26.8.1",
+    "tsx": "latest",
+    "typescript": "latest",
+    "vue-tsc": "latest",
+    "wait-on": "^9.0.10"
+  },
+  "build": {
+    "appId": "com.lolmasite.app",
+    "productName": "lolmasite",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "src/electron/main.cjs",
+      "package.json"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "cdoldhand",
+        "repo": "lolmasite"
+      }
+    ],
+    "win": {
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "lolmasite"
+    }
+  }
+}

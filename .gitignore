@@ -1,0 +1,38 @@
+# Build output
+dist/
+
+# Release
+release/
+
+# Dependencies
+node_modules/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+
+# Compiled JS in src (tsc output)
+src/**/*.js
+
+# OS files
+*.dll
+*.pak
+*.bin
+*.exe
+*.7z
+*.asar
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
